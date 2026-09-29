@@ -32,7 +32,9 @@
 }
 
 - (NSDictionary *)readUsage {
-    NSString *binary = @"/Applications/ChatGPT.app/Contents/Resources/codex";
+    // Use the Desktop app's current CLI. The legacy Resources/codex binary can
+    // return a stale 0/0 usage snapshot after Codex Desktop updates.
+    NSString *binary = @"/Applications/ChatGPT.app/Contents/Resources/codex-cli/bin/codex";
     if (![[NSFileManager defaultManager] isExecutableFileAtPath:binary]) return nil;
     NSString *init = @"{\"jsonrpc\":\"2.0\",\"id\":1,\"method\":\"initialize\",\"params\":{\"clientInfo\":{\"name\":\"CodexMeter\",\"version\":\"1.0\"}}}";
     NSString *ready = @"{\"jsonrpc\":\"2.0\",\"method\":\"initialized\",\"params\":{}}";
